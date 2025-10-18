@@ -167,3 +167,4 @@ export const Sidebar: React.FC<SidebarProps> = ({ user, onLogout, activeView, se
             </aside>
         </>
     );
+};

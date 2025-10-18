@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { GoogleGenAI } from "@google/genai";
-import { Credentials } from '../types';
+import { Credentials } from '../src/types';
 
 // Helper to add language instructions to prompts
 const getLanguageInstruction = (language?: 'en' | 'vi'): string => {

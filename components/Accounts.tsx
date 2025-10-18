@@ -28,6 +28,8 @@ import { AccountLinkerModal } from './AccountLinkerModal';
 import { SocialAccount, socialPlatforms, generalAffiliatePlatforms, cryptoAffiliatePlatforms, ConnectablePlatform, SocialPlatform } from '../types';
 import { ExternalLinkIcon } from './icons/ExternalLinkIcon';
 import { getPlatformUrl } from '../utils/getPlatformUrl';
+import { LinkAffiliatesModal } from './LinkAffiliatesModal';
+import { AffiliateIcon } from './icons/AffiliateIcon';
 
 const platformIcons: Record<ConnectablePlatform, React.ReactNode> = {
     youtube: <YouTubeIcon />,
@@ -63,6 +65,7 @@ const AccountManagerModal: React.FC<{
     const { t } = useTranslation();
     const { credentials, addSocialAccount, updateSocialAccount, removeSocialAccount } = useSystem();
     const [editingAccount, setEditingAccount] = useState<SocialAccount | 'new' | null>(null);
+    const [linkingAccount, setLinkingAccount] = useState<SocialAccount | null>(null);
 
     const accounts = credentials[platform] || [];
     const platformIcon = platformIcons[platform];
@@ -122,6 +125,13 @@ const AccountManagerModal: React.FC<{
                                     >
                                         <ExternalLinkIcon />
                                     </a>
+                                     <button
+                                        onClick={() => setLinkingAccount(acc)}
+                                        title="Link Affiliate Platforms"
+                                        className="p-2 bg-green-800/50 hover:bg-green-700/80 rounded-md text-white"
+                                    >
+                                        <AffiliateIcon className="w-4 h-4" />
+                                    </button>
                                      <button onClick={() => setEditingAccount(acc)} className="text-sm bg-gray-600 hover:bg-gray-500 text-white font-semibold py-1 px-3 rounded-md transition-colors">{t('accounts.edit')}</button>
                                      <button onClick={() => removeSocialAccount(platform as SocialPlatform, acc.id)} className="p-2 bg-red-800/50 hover:bg-red-700/80 rounded-md text-white"><TrashIcon className="w-4 h-4" /></button>
                                 </div>
@@ -135,6 +145,19 @@ const AccountManagerModal: React.FC<{
                     </button>
                 </footer>
             </div>
+            {linkingAccount && (
+                <LinkAffiliatesModal
+                    isOpen={!!linkingAccount}
+                    onClose={() => setLinkingAccount(null)}
+                    account={{ ...linkingAccount, platform: platform as SocialPlatform }}
+                    onSave={(newLinks) => {
+                        if (linkingAccount) {
+                           updateSocialAccount(platform as SocialPlatform, { ...linkingAccount, linkedAffiliatePlatforms: newLinks });
+                        }
+                        setLinkingAccount(null);
+                    }}
+                />
+            )}
         </div>
     )
 };

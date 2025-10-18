@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { AUTOMATION_FLOWS } from '../data/automations';
 import { AutomationFlow, FlowStep, FlowStepType } from '../types';
@@ -22,6 +21,7 @@ import { PinterestIcon } from './icons/PinterestIcon';
 import { LinkedInIcon } from './icons/LinkedInIcon';
 import { TradingBotIcon } from './icons/TradingBotIcon';
 import { useSystem } from '../contexts/SystemContext';
+import { PlusIcon } from './icons/PlusIcon';
 
 const getServiceIcon = (service: string): React.ReactNode => {
     const serviceLower = service.toLowerCase();
@@ -169,8 +169,15 @@ export const Automation: React.FC = () => {
                         {filteredFlows.map(flow => <AutomationFlowCard key={flow.id} flow={flow} />)}
                     </div>
                 ) : (
-                    <div className="text-center py-20 text-gray-500">
-                        <p>{t('automation.noFlows')}</p>
+                    <div className="text-center py-20 text-gray-500 flex flex-col items-center justify-center h-full">
+                        <p className="text-lg font-semibold mb-4">{t('automation.noFlows')}</p>
+                        <button
+                            onClick={() => setIsModalOpen(true)}
+                            className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-md transition-all flex items-center gap-2 animate-pulse-glow"
+                        >
+                            <PlusIcon />
+                            {t('automation.createButton')}
+                        </button>
                     </div>
                 )}
             </div>

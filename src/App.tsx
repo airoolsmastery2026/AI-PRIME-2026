@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Sidebar } from './components/Sidebar';
 import { Dashboard } from './components/Dashboard';
@@ -83,15 +82,5 @@ const App: React.FC = () => {
         </div>
     );
 };
-
-import React from "react";
-
-function App() {
-  return (
-    <div>
-      <h1>Hello AI PRIME 2026!</h1>
-    </div>
-  );
-}
 
 export default App;
